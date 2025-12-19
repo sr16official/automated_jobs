@@ -1,0 +1,30 @@
+# Environment variables
+.env
+
+# Credentials
+config/credentials.json
+config/token.json
+
+# Database
+db/
+*.db
+
+# Uploads
+uploads/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.venv/
+venv/
+
+# IDE
+.vscode/
+.idea/
+.DS_Store
+
+# Test files
+test_*.py
+debug_*.py

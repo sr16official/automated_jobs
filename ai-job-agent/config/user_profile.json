@@ -1,0 +1,10 @@
+{
+    "name": "Jane Doe",
+    "email": "jane.doe@example.com",
+    "resume_path": "path/to/resume.pdf",
+    "job_preferences": {
+        "role": "Software Engineer",
+        "location": "Remote",
+        "keywords": ["Python", "AI", "Backend"]
+    }
+}
