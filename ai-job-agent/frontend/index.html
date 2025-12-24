@@ -151,16 +151,26 @@
             </div>
 
             <div class="mb-4">
-                <input type="text" id="rss-url"
-                    placeholder="🔗 Paste your LinkedIn RSS Feed URL here (Optional but Recommended)"
+                <label class="block text-sm font-medium text-cyan-400 mb-2">🔗 LinkedIn RSS Feed URL <span
+                        class="text-yellow-400">(Recommended)</span></label>
+                <input type="text" id="rss-url" placeholder="Paste your LinkedIn RSS Feed URL here for best results"
                     class="w-full bg-black border-2 border-cyan-900/50 rounded-lg px-4 py-3 focus:outline-none focus:border-cyan-500 transition-all text-sm">
-                <p class="text-xs text-gray-600 mt-2 ml-1">💡 Tip: Using an RSS feed gives you the most reliable results
-                </p>
+                <div class="mt-2 p-3 bg-cyan-900/10 border border-cyan-900/30 rounded-lg">
+                    <p class="text-xs text-cyan-400 font-semibold mb-1">💡 How to get your LinkedIn RSS Feed:</p>
+                    <ol class="text-xs text-gray-400 space-y-1 ml-4 list-decimal">
+                        <li>Go to LinkedIn and search for jobs</li>
+                        <li>Apply your filters (role, location, etc.)</li>
+                        <li>Copy the URL from your browser</li>
+                        <li>Paste it here for the most reliable results</li>
+                    </ol>
+                    <p class="text-xs text-yellow-400 mt-2">⚠️ Without RSS feed, job discovery may be limited</p>
+                </div>
             </div>
 
             <!-- Resume Upload Section -->
             <div class="mb-6">
-                <label class="block text-sm font-medium text-cyan-400 mb-2">📄 Resume (Optional)</label>
+                <label class="block text-sm font-medium text-cyan-400 mb-2">📄 Resume <span
+                        class="text-red-400">*</span></label>
                 <div class="file-upload-wrapper rounded-lg p-6 text-center cursor-pointer">
                     <input type="file" id="resume-upload" accept=".pdf,.doc,.docx" onchange="handleResumeUpload(event)">
                     <div id="upload-placeholder">
@@ -210,6 +220,7 @@
                         <option value="shortlisted">⭐ Shortlisted</option>
                         <option value="drafted">✉️ Email Drafted</option>
                         <option value="new">🆕 Unscored</option>
+                        <option value="with_contacts">📧 With Contacts</option>
                     </select>
                 </div>
                 <div id="job-list" class="space-y-4">
@@ -240,6 +251,25 @@
                         <div class="flex gap-3 text-xs text-gray-500 border-l-2 border-gray-900 pl-4 py-2">
                             <span>⏳</span>
                             <span>Waiting for commands...</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contacts Section -->
+                <div class="space-y-4 mt-6">
+                    <div class="flex items-center justify-between">
+                        <h2 class="text-xl font-semibold text-cyan-400">📧 Contacts Directory</h2>
+                        <button onclick="exportContacts()"
+                            class="text-xs px-3 py-1.5 bg-cyan-900/30 hover:bg-cyan-900/50 border border-cyan-800/40 rounded text-cyan-400 transition-all">
+                            📥 Export CSV
+                        </button>
+                    </div>
+                    <div class="glass rounded-xl p-6 max-h-[500px] overflow-y-auto">
+                        <div id="contacts-list" class="space-y-3">
+                            <div class="text-center py-10 text-gray-600">
+                                <div class="text-4xl mb-2">📭</div>
+                                <p class="text-sm">No contacts yet. Run a search to extract contacts!</p>
+                            </div>
                         </div>
                     </div>
                 </div>

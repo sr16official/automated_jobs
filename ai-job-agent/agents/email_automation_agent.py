@@ -33,9 +33,10 @@ class EmailAutomationAgent:
         profile_str = json.dumps(self.profile, indent=2)
         job_str = json.dumps({
             "title": job['title'],
-            "company": job.get('company', 'the company'), # Assuming company might be in job dict or inferred
+            "company": job['company'] if job['company'] else 'the company',
             "location": job['location']
         }, indent=2)
+
         
         system_prompt = """You are a professional career assistant. Your goal is to write a concise, professional, and compelling email to a recruiter or hiring manager.
         

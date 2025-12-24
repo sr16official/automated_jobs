@@ -5,9 +5,14 @@ from typing import List, Optional
 import shutil
 import sys
 import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Add parent directory to path to import agents and utils
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 
 from agents.job_search_agent import JobSearchAgent
 from agents.job_ranking_agent import JobRankingAgent
@@ -46,11 +51,12 @@ agent_status = {
     "progress": 0
 }
 
-# Store uploaded resume path
+# Store uploaded resume path and parsed skills
 resume_path = None
+resume_skills = []
 
 def run_agent_task(role: str, location: str, rss_url: Optional[str] = None):
-    global agent_status
+    global agent_status, resume_skills
     try:
         agent_status["is_running"] = True
         agent_status["progress"] = 0
@@ -67,9 +73,14 @@ def run_agent_task(role: str, location: str, rss_url: Optional[str] = None):
         
         agent_status["progress"] = 10
         
+        # Step 1.5: Parse resume if available
+        if resume_path and resume_skills:
+            agent_status["current_step"] = f"Using {len(resume_skills)} skills from resume"
+            agent_status["progress"] = 15
+        
         # Initialize agents
         search_agent = JobSearchAgent()
-        ranker = JobRankingAgent()
+        ranker = JobRankingAgent(resume_skills=resume_skills)  # Pass resume skills
         extractor = ContactExtractionAgent()
         email_bot = EmailAutomationAgent()
         
@@ -82,7 +93,7 @@ def run_agent_task(role: str, location: str, rss_url: Optional[str] = None):
         agent_status["progress"] = 40
         
         # Step 3: Rank
-        agent_status["current_step"] = "Ranking Jobs"
+        agent_status["current_step"] = "Ranking Jobs with Skill Matching"
         ranker.rank_jobs()
         agent_status["progress"] = 60
         
@@ -114,7 +125,7 @@ async def run_agent(
     rss_url: str = Form(""),
     resume: Optional[UploadFile] = File(None)
 ):
-    global resume_path
+    global resume_path, resume_skills
     try:
         print(f"Received: role={role}, location={location}, rss_url={rss_url}, resume={resume}")
         
@@ -129,6 +140,18 @@ async def run_agent(
             with open(resume_path, "wb") as buffer:
                 shutil.copyfileobj(resume.file, buffer)
             print(f"Resume saved to: {resume_path}")
+            
+            # Parse resume skills
+            try:
+                from utils.resume_parser import ResumeParser
+                parser = ResumeParser()
+                resume_skills = parser.get_resume_skills(resume_path)
+                print(f"Extracted {len(resume_skills)} skills from resume: {resume_skills[:10]}")
+            except Exception as e:
+                print(f"Error parsing resume: {e}")
+                import traceback
+                traceback.print_exc()
+                resume_skills = []
         
         background_tasks.add_task(run_agent_task, role, location, rss_url if rss_url else None)
         return {"message": "Agent started in background", "status": agent_status}

@@ -45,6 +45,26 @@ def init_db():
     except sqlite3.OperationalError:
         pass # Column likely exists
     
+    try:
+        c.execute("ALTER TABLE jobs ADD COLUMN description TEXT")
+    except sqlite3.OperationalError:
+        pass # Column likely exists
+    
+    try:
+        c.execute("ALTER TABLE jobs ADD COLUMN required_skills TEXT")
+    except sqlite3.OperationalError:
+        pass # Column likely exists
+    
+    try:
+        c.execute("ALTER TABLE jobs ADD COLUMN skill_match_score REAL DEFAULT 0")
+    except sqlite3.OperationalError:
+        pass # Column likely exists
+    
+    try:
+        c.execute("ALTER TABLE jobs ADD COLUMN skill_match_details TEXT")
+    except sqlite3.OperationalError:
+        pass # Column likely exists
+    
     conn.commit()
     conn.close()
     print(f"Database initialized at {DB_PATH}")

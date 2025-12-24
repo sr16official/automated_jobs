@@ -1,0 +1,7 @@
+Notes
+=====
+
+Project: AI Job Agent
+Date: 2025-12-25
+
+This file contains general notes and reminders for the project.

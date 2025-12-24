@@ -10,7 +10,7 @@ An intelligent, automated job application assistant that discovers, ranks, and h
 
 ### 🔍 Multi-Source Job Discovery
 - **RSS Feed Integration**: Parse LinkedIn job feeds directly
-- **Firecrawl Web Scraping**: Discover jobs from Greenhouse, Naukri, Wellfound, and more
+- **Firecrawl v1 Web Scraping**: Advanced scraping with anti-bot bypass for Greenhouse, Naukri, Wellfound, and more
 - **Modular Scraper Architecture**: Easy to add new job boards
 
 ### 🎯 AI-Powered Job Ranking
@@ -19,10 +19,12 @@ An intelligent, automated job application assistant that discovers, ranks, and h
 - **Detailed Explanations**: Get reasons why each job is a good fit
 
 ### 📧 Automated Email Outreach
-- **Contact Extraction**: Automatically finds recruiter emails from job postings
+- **Smart Contact Extraction**: Uses Firecrawl to bypass anti-bot measures and find recruiter emails
+- **Fallback Email Generation**: Automatically generates likely HR emails (careers@, jobs@, etc.) when contacts aren't found
 - **AI-Generated Emails**: Personalized cover letters for each application
 - **Gmail Integration**: Creates drafts directly in your Gmail account
 - **Resume Attachment**: Automatically attaches your resume to emails
+
 
 ### 📊 Real-Time Dashboard
 - **Live Monitoring**: Track agent progress in real-time
@@ -65,7 +67,7 @@ ai-job-agent/
 ### Prerequisites
 - Python 3.9+
 - Google Cloud account (for Gmail API)
-- Firecrawl API key (optional, for web scraping)
+- Firecrawl API key (for web scraping with anti-bot bypass)
 - OpenRouter API key (for LLM)
 
 ### Installation
@@ -79,8 +81,14 @@ cd automated_jobs/ai-job-agent
 2. **Install dependencies**
 ```bash
 python3 -m pip install -r requirements.txt
-python3 -m pip install python-multipart
 ```
+
+This will install:
+- `firecrawl-py` - Official Firecrawl v1 SDK for web scraping
+- `beautifulsoup4` - HTML parsing
+- `openai` - LLM client
+- `google-api-python-client` - Gmail integration
+- `fastapi` & `uvicorn` - Web dashboard backend
 
 3. **Set up environment variables**
 
